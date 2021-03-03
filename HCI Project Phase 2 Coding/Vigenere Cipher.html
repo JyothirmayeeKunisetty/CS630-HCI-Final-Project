@@ -1,0 +1,126 @@
+<html>
+  <head>
+    <title>Vigenere Cipher</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Create two unequal columns that floats next to each other */
+        .column {
+            float: left;
+            padding: 10px;
+            height: 180px;
+        }
+
+        .left {
+            width: 50%;
+            background-color: lightpink;
+        }
+
+        .right {
+            width: 50%;
+            background-color: lightskyblue;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        #border-collapse{
+            border-collapse: collapse;
+        }
+
+        .backbutton {
+            background-color: grey; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            font-size: 10px;
+            border-radius: 50%;
+        }
+    </style>
+
+    <script>
+        function goBack(){
+            window.history.back()
+        }
+    </script>
+
+  </head>
+  
+  <body bgcolor="lightblue">
+    <center>
+        <h2>Vigenere Cipher</h2>
+    </center>
+    <p>The Vigenere cipher has several Caesar ciphers in sequence with different shift values. To encrypt, a table of alphabets can be used generally known as the "<b>Vigenere Table</b>". It has the alphabet written out 26 times in different rows, each alphabet shifted cyclically to the left compared to the previous alphabet, corresponding to the 26 possible Caesar ciphers. At different points in the encryption process, the cipher uses a different alphabet from one of the rows. The alphabet used at each point depends on a repeating keyword.</p>
+    <p>Each row starts with a key letter. The rest of the row holds the letters A to Z (in shifted order). Although there are 26 key rows shown, a code will use only as many keys (different alphabets) as there are unique letters in the key string. For successive letters of the message, successive letters of the key string will be taken and each message letter enciphered by using its corresponding key row. The next letter of the key is chosen, and that row is gone along to find the column heading that matches the message character. The letter at the intersection of [key-row, msg-col] is the enciphered letter.</p>
+    <p>The sender and the receiver decide on a key. Based on the Key, the Sender decides to do the Encryption and as similarly, the Receiver uses the same Key for te Decryption too based on the Vigenere Table.</p>
+
+    <center>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Vigen%C3%A8re_square_shading.svg/330px-Vigen%C3%A8re_square_shading.svg.png"><br>
+        <b><i>fig. Vigenere Table</i></b>
+    </center>
+
+    <p><b><i>Example:</i></b></p>
+        If we consider the Plain Text as below:<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <b>Plain Text:</b> "A SIMPLE MESSAGE" <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <b>Keyword:</b> "TUTORIAL" <br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        The Key is converted into "<b>TUTORIALTUTORI</b>"<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        By Using the Vigenere Table for each and every letter in the Plain Text corresponding to the each and every letter in the Keyword,<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        The generated Cipher Text is: "<b>T MBAGTE XXMLOXM</b>"
+    <p>
+        Steps to generate Cipher Text from Plain Text using <b>Vigenere Cipher:</b> (Encryption)
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Steps to generate Plain Text from Cipher Text using <b>Vigenere Cipher:</b> (Decryption)<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <i><b>Step 1</b></i>: Enter the Plain Text.
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 1</b></i>: Enter the Cipher Text.
+        <br>
+        
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 2</b></i>: Enter the Keyword for Encryption and click on "Encrypt" button.
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 2</b></i>: Enter the Keyword for Decryption and click on "Decrypt" button.
+        <br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 3</b></i>: Get the Cipher Text.
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 3</b></i>: Get the Plain Text.<br>
+    </p>
+
+    <div class="row">
+        <div class="column left">
+            <iframe src="Vigenere Cipher Encryption.html" width="600" height="150"></iframe>
+        </div>
+        <div class="column right">
+            <iframe src="Vigenere Cipher Decryption.html" width="600" height="150"></iframe>
+        </div>
+    </div>
+
+    <p align="right">
+        <button class="backbutton" onclick="goBack()">Back</button>
+    </p>
+
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <title>Simple Substitution Cipher</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Create two unequal columns that floats next to each other */
+        .column {
+            float: left;
+            padding: 10px;
+            height: 230px;
+        }
+
+        .left {
+            width: 50%;
+            background-color: lightpink;
+        }
+
+        .right {
+            width: 50%;
+            background-color: lightskyblue;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        #border-collapse{
+            border-collapse: collapse;
+        }
+
+        .backbutton {
+            background-color: grey; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            font-size: 10px;
+            border-radius: 50%;
+        }
+    </style>
+
+    <script>
+        function goBack(){
+            window.history.back()
+        }
+    </script>
+
+  </head>
+  
+  <body bgcolor="lightblue">
+    <center>
+        <h2>Simple Substitution Cipher</h2>
+    </center>
+    <p>Simple Substitution Cipher, being an improvement to the Caesar Cipher, it follows the method of shifting the alphabets by some number using some permutation of the letters in alphabet which is nothing but a random jumbled set of alphabets.</p>
+    <p>To implement this, both the sender and the receiver may choose any one of these possible permutation as a ciphertext alphabet. The sender and the receiver decide on a randomly selected permutation of the letters of the alphabet. This permutation is the secret key of the scheme.</p>
+
+    <p>For an example, below table represents a sample replacements of the alphabets using some random Permutation or Jumbling:</p>
+
+    <center>
+        <img src="https://www.tutorialspoint.com/cryptography/images/simple_substitution_cipher.jpg">
+    </center>
+
+    <p>
+        Steps to generate Cipher Text from Plain Text using <b>Simple Substitution Cipher:</b> (Encryption)
+        &nbsp;&nbsp;&nbsp; 
+        Steps to generate Plain Text from Cipher Text using <b>Simple Substitution Cipher:</b> (Decryption)<br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        <i><b>Step 1</b></i>: Enter the Plain Text.
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 1</b></i>: Enter the Cipher Text.
+        <br>
+        
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 2</b></i>: Enter the Key for Encryption and click on "Encrypt" button.
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 2</b></i>: Enter the Key for Decryption and click on "Decrypt" button.
+        <br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        (Click on the <b>"Generate Random Key"</b> button if you don't have one)
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        (Use the <b>Same Key</b> that is used for Encryption)<br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 3</b></i>: Get the Cipher Text.
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 3</b></i>: Get the Plain Text.<br>
+    </p>
+
+    <div class="row">
+        <div class="column left">
+            <iframe src="Simple Substitution Cipher Encryption.html" width="600" height="210"></iframe>
+        </div>
+        <div class="column right">
+            <iframe src="Simple Substitution Cipher Decryption.html" width="600" height="210"></iframe>
+        </div>
+    </div>
+
+    <p align="right">
+        <button class="backbutton" onclick="goBack()">Back</button>
+    </p>
+
+  </body>
+</html>

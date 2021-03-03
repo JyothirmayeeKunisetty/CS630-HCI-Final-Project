@@ -1,0 +1,98 @@
+<html>
+    <head>
+        <title>Simple Substitution Cipher Encryption</title>
+
+        <script>
+            function Encrypt() {
+                plaintext = document.getElementById("p").value.toLowerCase();  
+                key = document.getElementById("key").value.toLowerCase().replace(/[^a-z]/g,""); 
+                if(plaintext.length < 1)
+                { 
+                    alert("Please enter some Plain Text (letters and numbers only)"); 
+                    return; 
+                }    
+                if(key.length != 26)
+                { 
+                    alert("Entered Key must be 26 characters of length"); 
+                    return; 
+                }
+                ciphertext = ""; var re = /[a-z]/; 
+                for(i=0; i<plaintext.length; i++)
+                { 
+                    if(re.test(plaintext.charAt(i))) 
+                        ciphertext += key.charAt(plaintext.charCodeAt(i)-97); 
+                    else  
+                        ciphertext += plaintext.charAt(i); 
+                } 
+                
+                document.getElementById("c").value = ciphertext; 
+            } 
+        
+            function GenRandKey()
+            { 
+                var keychars = "abcdefghijklmnopqrstuvwxyz"; 
+                var chars = keychars.split(""); 
+                ret=""; 
+                lim = chars.length; 
+                for(i=0; i<lim; i++)
+                { 
+                    index = Math.floor(chars.length*Math.random()); 
+                    ret += chars[index]; 
+                    chars.splice(index,1); 
+                } 
+                document.getElementById("key").value = ret; 
+            }
+        </script>
+
+    </head>
+
+    <body>
+        <center>
+            <form>
+                <table>
+                    <tr>
+                        <td>
+                            Enter the Plain Text :
+                        </td>
+                        <td>
+                            <textarea id="p" name="p" rows= "3" cols= "33" placeholder="Enter the Plain Text"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td>
+                            Enter the Key : 
+                        </td>
+                        <td>
+                            <textarea id="key" name="key" rows= "1" cols= "33" placeholder="Enter a 26 length unique key"></textarea>
+                        </td>   
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
+                        <td>
+                            <center>
+                            <input type="button" name="genKey" id="genKey" value="Generate Random Key" onclick="GenRandKey();">
+                            </center>
+                        </td>
+                        <td>
+                            <center>
+                            <input type="button" name="btnEn" value="Encrypt" onclick="Encrypt();">
+                            </center>
+                        </td>
+                    </tr>
+                </table>
+
+                <br>
+                <textarea id="c" name="c" rows= "3" cols= "55" placeholder="Get the Cipher Text here"></textarea>
+                
+
+          </form>
+        </center>
+    </body>
+</html>

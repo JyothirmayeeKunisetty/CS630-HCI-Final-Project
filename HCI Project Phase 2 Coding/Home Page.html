@@ -1,0 +1,122 @@
+<html>
+  <head>
+    <title>Home Page</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style> 
+        #noUnderline { 
+            text-decoration: none; 
+        } 
+
+		.navbar {
+			overflow: hidden;
+			background-color: teal;
+		}
+
+		.navbar a {
+			float: left;
+			font-size: 16px;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
+		}
+
+		.dropdown {
+			float: left;
+			overflow: hidden;
+		}
+
+		.dropdown .dropbtn {
+			font-size: 16px;  
+			border: none;
+			outline: none;
+			color: white;
+			padding: 14px 16px;
+			background-color: inherit;
+			font-family: inherit;
+			margin: 0;
+		}
+
+		.navbar a:hover, .dropdown:hover .dropbtn {
+			background-color: gray;
+		}
+
+		.dropdown-content {
+			display: none;
+			position: absolute;
+			background-color: #f9f9f9;
+			min-width: 160px;
+			box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+			z-index: 1;
+		}
+
+		.dropdown-content a {
+			float: none;
+			color: black;
+			padding: 12px 16px;
+			text-decoration: none;
+			display: block;
+			text-align: left;
+		}
+
+		.dropdown-content a:hover {
+			background-color: #ddd;
+		}
+
+		.dropdown:hover .dropdown-content {
+			display: block;
+		}
+
+    </style> 
+	
+  </head>
+  
+  <body bgcolor="lightblue">
+	<center>
+		<h1>Monoalphabetic & Polyalphabetic Substitution Cipher</h1>
+	</center>
+
+	<div class="navbar">
+		<a href="Home Page.html">Home</a>
+		
+		<div class="dropdown">
+			<button class="dropbtn">Monoalphabetic Cipher &nbsp;&nbsp;<i class="fa fa-caret-down"></i></button>
+			<div class="dropdown-content">
+				<a href="Caesar Cipher.html">Caesar Cipher</a>
+				<a href="Simple Substitution Cipher.html">Simple Substitution Cipher</a>
+			</div>
+		</div>
+
+		<div class="dropdown">
+			<button class="dropbtn">Polyalphabetic Cipher &nbsp;&nbsp;<i class="fa fa-caret-down"></i></button>
+			<div class="dropdown-content">
+				<a href="Playfair Cipher.html">Playfair Cipher</a>
+				<a href="Vigenere Cipher.html">Vigenere Cipher</a>
+			</div>
+		</div>
+	  </div>
+
+	<h2><u>Monoalphabetic Substitution Cipher</u></h2>
+    <p>A Monoalphabetic Substitution Cipher, also known as a simple substitution cipher, relies on a fixed replacement structure. That is, the substitution is fixed for each letter of the alphabet. Thus, if "a" is encrypted to "R", then every time we see the letter "a" in the plaintext, we replace it with the letter "R" in the ciphertext. The key for such a cipher is a table of the correspondence or a function from which the correspondence is computed. Monalphabetic substitution ciphers are easy to break using a decryption method called letter frequency analysis.</p>
+
+	<h3>Examples of Monalphabetic Substitution Ciphers:</h3>
+	<ol>
+		<li>Caesar Cipher</li>
+		<li>Simple Substitution Cipher</li>
+	</ol>
+		
+	To know more about Monoalphabetic Substitution Cipher, <a href="Monoalphabetic Substitution Cipher Description.html">Click Here</a>
+
+	<h2><u>Polyalphabetic Substitution Cipher</u></h2>
+    <p>A Polyalphabetic Substitution Cipher is any cipher based on substitution, using multiple substitution alphabets. If two letters are the same in the ciphertext it does not mean they must decipher to the same plaintext letter.The development of Polyalphabetic Substitution Ciphers was the cryptographers answer to Frequency Analysis. Each plaintext character is replaced by another letter. A way of substitution is changed cyclically and it depends on a current position of the modified letter.</p>
+	
+	<h3>Examples of Polyalphabetic Substitution Ciphers:</h3>
+	<ol>
+		<li>Playfair Cipher</li>
+		<li>Vigenere Cipher</li>
+	</ol>
+
+	To know more about Polyalphabetic Substitution Cipher, <a href="Polyalphabetic Substitution Cipher Description.html">Click Here</a>
+
+  </body>
+</html>

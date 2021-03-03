@@ -1,0 +1,559 @@
+<html>
+  <head>
+    <title>Playfair Cipher</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Create two unequal columns that floats next to each other */
+        .column {
+            float: left;
+            padding: 10px;
+            height: 230px;
+        }
+
+        .left {
+            width: 50%;
+            background-color: lightpink;
+        }
+
+        .right {
+            width: 50%;
+            background-color: lightskyblue;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        #border-collapse{
+            border-collapse: collapse;
+        }
+
+        .backbutton {
+            background-color: grey; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            cursor: pointer;
+            font-size: 10px;
+            border-radius: 50%;
+        }
+    </style>
+
+    <script>
+        function goBack(){
+            window.history.back()
+        }
+
+        var MCarr=new Array(
+        "*","|",".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",
+        ".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--..","-----",".----","..---","...--","....-",
+        ".....","-....","--...","---..","----."
+        );
+        var ABC012arr="*|ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        function DoMorseDecrypt(x)
+        {mess="";apos=0;bpos=0;
+        while(bpos<x.length)
+        {
+        bpos=x.indexOf(" ",apos);if(bpos<0){bpos=x.length};
+        dits=x.substring(apos,bpos);apos=bpos+1;let="";
+        for(j=0;j<MCarr.length;j++){  if(dits==MCarr[j]){let=ABC012arr.charAt(j)}  };
+        if(let==""){let="*"};
+        mess+=let;
+        };
+        return mess;
+        };
+
+        function DoMorseEncrypt(x)
+        {mess="";
+        for(i=0;i<x.length;i++)
+        {
+        let=x.charAt(i).toUpperCase();
+        for(j=0;j<MCarr.length;j++){  if(let==ABC012arr.charAt(j)){mess+=MCarr[j]}  };
+        mess+=" ";
+        };
+        mess=mess.substring(0,mess.length-1);
+        return mess;
+        };
+
+
+        function DoReverse(x){y="";for(i=0;i<x.length;i++){y+=x.charAt(x.length-1-i);};return y};
+
+
+        function DoCaeserEncrypt(x,shf)
+        {
+        abc="abcdefghijklmnopqrstuvwxyz";
+        ABC="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        r1="";r2="";shf=eval(shf);
+        for(i=0;i<x.length;i++){let=x.charAt(i);pos=ABC.indexOf(let);if(pos>=0){r1+=ABC.charAt(  (pos+shf)%26  )}else{r1+=let};};
+        for(i=0;i<r1.length;i++){let=r1.charAt(i);pos=abc.indexOf(let);if(pos>=0){r2+=abc.charAt(  (pos+shf)%26  )}else{r2+=let};};
+        return r2;
+        };
+
+        function DoCaeserDecrypt(x,shf)
+        {return DoCaeserEncrypt(x,26-shf);};
+
+
+        function MakeCipherABC(abc,key1)
+        {
+        abc=abc.toUpperCase();key1=key1.toUpperCase();
+        cyabc=key1+abc;
+        for(i=0;i<abc.length;i++){let=cyabc.charAt(i);pos=cyabc.indexOf(let,i+1);
+        while(pos>-1){cyabc=cyabc.substring(0,pos)+cyabc.substring(pos+1,cyabc.length);pos=cyabc.indexOf(let,i+1);};};
+        return cyabc;
+        }
+
+
+        function DoVigenere(et,key1,key2,abc,dir,vigtype,altluabc)
+        {dt="";et=et.toUpperCase();key1=key1.toUpperCase();key2=key2.toUpperCase();abc=abc.toUpperCase();dir=dir.toUpperCase();
+        pos=et.indexOf(" ");
+        while(pos>-1){et=et.substring(0,pos)+et.substring(pos+1,et.length);pos=et.indexOf(" ");};
+        cyabc=MakeCipherABC(abc,key1);
+        key1=cyabc;
+        lu=cyabc;
+        if(vigtype=="N"){lu=abc};
+        if(vigtype=="K"){lu=cyabc};
+        if(vigtype=="A"){lu=altluabc};
+        for(i=0;i<et.length;i++)
+        {let=et.charAt(i);letinabc=abc.indexOf(let);
+        if(letinabc<0){dt+=let;et=et.substring(0,i)+et.substring(i+1,et.length);i--}
+        else{
+        if(dir=="E"){dt+=lu.charAt((key1.indexOf(let)+key1.length+key1.indexOf(key2.charAt(i%key2.length)))%key1.length);};
+        if(dir=="D"){dt+=lu.charAt((key1.indexOf(let)+key1.length-key1.indexOf(key2.charAt(i%key2.length)))%key1.length);};};
+
+        };
+        return dt;};
+
+        function DoFreqCnt(x,abc)
+        {var i,abc,pos,freqs;
+        pos=x.indexOf(" ");while(pos>-1){x=x.substring(0,pos)+x.substring(pos+1,x.length);pos=x.indexOf(" ");};
+        x=x.toUpperCase();freqs="";
+        letarr=new Array("");
+        for(i=0;i<abc.length;i++){letarr[i]=0;};
+        for(i=0;i<x.length;i++){letarr[abc.indexOf(x.charAt(i))]++};
+        for(i=0;i<abc.length;i++){freqs+=abc.charAt(i)+":"+letarr[i]+"/"+x.length+"="+letarr[i]/x.length+"\n";};
+        return freqs;
+        }
+
+        function DoRowColumnTranspose(et,rowcol,jump,startrow)
+        {dt="";if((et=="")||(rowcol=="")||(jump=="")||(startrow=="")){dt="You must supply all values";return dt;}
+        maxrow=eval(rowcol.substring(0,rowcol.indexOf(",")));
+        maxcol=eval(rowcol.substring(rowcol.indexOf(",")+1,rowcol.length));
+        jump=eval(jump);startrow=eval(startrow);
+        if(startrow>maxrow){dt="Start Row must be <= Max Rows";return dt;}
+        lin=new Array("");
+        for(i=0;i<maxrow;i++){lin[i]=et.substring(maxcol*i,maxcol*(i+1))};
+        row=startrow-1;col=maxcol-1;//starting point
+        for(i=0;i<(maxrow*maxcol);i++)
+        {dt+=lin[row].charAt(col);
+        row=row+jump;
+        while(row>=maxrow){row-=maxrow;col-=1;};
+        while(col<=-1){col+=maxcol;row-=1;};
+        while(row<=-1){row+=maxrow;col-=1;};
+        while(col>=maxcol){col-=maxcol;row-=1;};
+        };
+        return dt;};
+
+
+        function DoModTranspose(et,startlet,jumpinc,modulus)
+        {dt="";if((et=="")||(startlet=="")||(jumpinc=="")||(modulus=="")){dt="You must supply all values";return dt;}
+        startlet=eval(startlet)-1;jumpinc=eval(jumpinc);modulus=eval(modulus);
+        if(startlet>modulus){dt="startlet must be <= maxchar";return dt;}
+        et=escape(et);
+        pos=et.indexOf("%0D");
+        while(pos>-1){et=et.substring(0,pos)+et.substring(pos+3,et.length);pos=et.indexOf("%0D");};
+        pos=et.indexOf("%0A");
+        while(pos>-1){et=et.substring(0,pos)+et.substring(pos+3,et.length);pos=et.indexOf("%0A");};
+        et=unescape(et);
+        for(i=0;i<(modulus);i++){dt+=et.charAt((startlet+jumpinc*i)%modulus);};
+        return dt;};
+
+
+        function DoAsciiHex(x,dir)
+        {hex="0123456789ABCDEF";almostAscii=' !"#$%&'+"'"+'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ['+'\\'+']^_`abcdefghijklmnopqrstuvwxyz{|}';r="";
+        if(dir=="A2H")
+        {for(i=0;i<x.length;i++){let=x.charAt(i);pos=almostAscii.indexOf(let)+32;h16=Math.floor(pos/16);h1=pos%16;r+=hex.charAt(h16)+hex.charAt(h1);};};
+        if(dir=="H2A")
+        {for(i=0;i<x.length;i++){let1=x.charAt(2*i);let2=x.charAt(2*i+1);val=hex.indexOf(let1)*16+hex.indexOf(let2);r+=almostAscii.charAt(val-32);};};
+        return r;
+        };
+
+
+        function DoSubstitute(x,orig,sub,dir)
+        {
+        x=x.toUpperCase();r="";
+        if(dir=="e")
+        {for(i=0;i<x.length;i++){let=x.charAt(i);pos=orig.indexOf(let);if(pos>-1){r+=sub.charAt(pos)}else{r+=let}}};
+        if(dir=="d")
+        {for(i=0;i<x.length;i++){let=x.charAt(i);pos=sub.indexOf(let);if(pos>-1){r+=orig.charAt(pos)}else{r+=let}}};
+        return r;
+        };
+
+        function SwitchEm(x,a,b)
+        {
+        posA=x.indexOf(a);
+        posB=x.indexOf(b);
+        r1=x.substring(0,posA)+b+x.substring(posA+1,x.length);
+        r2=r1.substring(0,posB)+a+r1.substring(posB+1,r1.length);
+        return r2;
+        };
+
+
+        function MakePlayfairSquare(abc,key1)
+        {
+        cyabc=MakeCipherABC(abc,key1);
+        row = new Array();
+        for(i=0;i<5;i++)
+        {
+            row[i]="|"
+        };
+        for(i=0;i<5;i++)
+        {
+            for(j=0;j<5;j++)
+            row[i] = row[i] + cyabc.charAt(((5*i) + j)) +"|";
+        };
+        sqr="-----------";
+        for(i=0;i<5;i++)
+        {
+            sqr+=row[i]+"\n"+"-----------\n"
+        };
+        return sqr;
+        };
+
+
+        function DoPlayfair(et,abc,key1,dir,dup)
+        {
+        et=et.toUpperCase();abc=abc.toUpperCase();key1=key1.toUpperCase();
+        pos=et.indexOf(" ");
+        while(pos>-1){et=et.substring(0,pos)+et.substring(pos+1,et.length);pos=et.indexOf(" ");};
+
+        pos=et.indexOf("?");
+        while(pos>-1){et=et.substring(0,pos)+et.substring(pos+1,et.length);pos=et.indexOf("?");};
+
+        for(i=0;i<et.length;i=i+2)
+        {let1=et.charAt(i);let2=et.charAt(i+1);if(let1==let2){et=et.substring(0,i+1)+"X"+et.substring(i+1,et.length)};};
+        if( (et.length%2)==1 ){et+='X'}
+
+        if(dup!=""){
+        pos=et.indexOf(dup);
+        while(pos>-1){et=et.substring(0,pos)+"I"+et.substring(pos+1,et.length);pos=et.indexOf(dup);};
+        };
+
+        cyabc=MakeCipherABC(abc,key1)
+        row=new Array();for(i=0;i<5;i++){row[i]=""};
+        for(i=0;i<5;i++){for(j=0;j<5;j++)row[i]+=cyabc.charAt(5*i+j);};
+
+        shf=1;if(dir=="E"){shf=1};if(dir=="D"){shf=4};
+
+        dt="";
+        for(i=0;i<et.length;i=i+2)
+        {
+        pos1=cyabc.indexOf(et.charAt(i));pos2=cyabc.indexOf(et.charAt(i+1));
+        x1=pos1%5;y1=Math.floor(pos1/5);x2=pos2%5;y2=Math.floor(pos2/5);
+
+        if(y1==y2){x1=(x1+shf)%5;x2=(x2+shf)%5}
+        else if(x1==x2){y1=(y1+shf)%5;y2=(y2+shf)%5}
+        else{temp=x1;x1=x2;x2=temp};
+
+        dt+=row[y1].charAt(x1)+row[y2].charAt(x2) ;
+        };
+
+
+        return dt;
+        };
+
+        function goBack(){
+            window.history.back()
+        }
+    </script>
+
+  </head>
+  
+  <body bgcolor="lightblue">
+    <center>
+        <h2>Playfair Cipher</h2>
+    </center>
+    <p>In Playfair Cipher, pairs of letters are encrypted, instead of single letters as in the case of simple substitution cipher.</p>
+    <p>To implement this, both the sender and the receiver gets a Keyword. Based on the Keyword, a Key Table of a 5×5 grid of alphabets is generated which acts as the key for Encrypting the Plain Text. Each of the 25 alphabets is unique and one letter of the alphabet (usually J) is omitted from the table as we need only 25 alphabets instead of 26 for the 5×5 grid. If the plaintext contains J, then it is replaced by I. A Plain Text message is split into pairs of two letters (digraphs). If there is an odd number of letters, a Z is added to the last letter.</p>
+
+    <p><i><b>Example: </b></i>If we consider the Keyword <b>"TUTORIALS"</b>, they Key Table generated  will be as follows:</p>
+
+    <center>
+        <table border="2px 1px" align="center" width="100" id="border-collapse">
+            <tr>
+                <td>T</td>
+                <td>U</td>
+                <td>O</td>
+                <td>R</td>
+                <td>I</td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>L</td>
+                <td>S</td>
+                <td>B</td>
+                <td>C</td>
+            </tr>
+            <tr>
+                <td>D</td>
+                <td>E</td>
+                <td>F</td>
+                <td>G</td>
+                <td>H</td>
+            </tr>
+            <tr>
+                <td>K</td>
+                <td>M</td>
+                <td>N</td>
+                <td>P</td>
+                <td>Q</td>
+            </tr>
+            <tr>
+                <td>V</td>
+                <td>W</td>
+                <td>X</td>
+                <td>Y</td>
+                <td>Z</td>
+            </tr>
+        </table>
+    </center>
+
+    <p>If we consider the Plain Text to be as: <b>HIDE MONEY</b>,</p>
+    
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    It can be split into, <b>HI DE MO NE YZ</b>
+    <p>We have some rules for Encryption. They are as below:</p>
+
+    <ol>
+        <li>
+            If both the letters are in the same column, take the letter below each one (going back to the top if at the bottom).
+            <br><br>
+            <table border="2px 1px" align="center" width="100" id="border-collapse">
+                <tr>
+                    <td>T</td>
+                    <td>U</td>
+                    <td>O</td>
+                    <td>R</td>
+                    <td bgcolor="white">I</td>
+                </tr>
+                <tr>
+                    <td>A</td>
+                    <td>L</td>
+                    <td>S</td>
+                    <td>B</td>
+                    <td bgcolor="cyan">C</td>
+                </tr>
+                <tr>
+                    <td>D</td>
+                    <td>E</td>
+                    <td>F</td>
+                    <td>G</td>
+                    <td bgcolor="white">H</td>
+                </tr>
+                <tr>
+                    <td>K</td>
+                    <td>M</td>
+                    <td>N</td>
+                    <td>P</td>
+                    <td bgcolor="cyan">Q</td>
+                </tr>
+                <tr>
+                    <td>V</td>
+                    <td>W</td>
+                    <td>X</td>
+                    <td>Y</td>
+                    <td>Z</td>
+                </tr>
+            </table>
+            <br>
+            ‘H’ and ‘I’ are in same column, hence we take the letter below them to replace. Thus <b>HI → QC</b>
+        </li>
+        <br>
+        <li>
+            If both letters are in the same row, take the letter to the right of each one (going back to the left if at the farthest right).
+            <br><br>
+            <table border="2px 1px" align="center" width="100" id="border-collapse">
+                <tr>
+                    <td>T</td>
+                    <td>U</td>
+                    <td>O</td>
+                    <td>R</td>
+                    <td>I</td>
+                </tr>
+                <tr>
+                    <td>A</td>
+                    <td>L</td>
+                    <td>S</td>
+                    <td>B</td>
+                    <td>C</td>
+                </tr>
+                <tr>
+                    <td bgcolor="white">D</td>
+                    <td bgcolor="white">E</td>
+                    <td bgcolor="cyan">F</td>
+                    <td>G</td>
+                    <td>H</td>
+                </tr>
+                <tr>
+                    <td>K</td>
+                    <td>M</td>
+                    <td>N</td>
+                    <td>P</td>
+                    <td>Q</td>
+                </tr>
+                <tr>
+                    <td>V</td>
+                    <td>W</td>
+                    <td>X</td>
+                    <td>Y</td>
+                    <td>Z</td>
+                </tr>
+            </table>
+            <br>
+            ‘D’ and ‘E’ are in same row, hence take letter to the right of them to replace. Thus <b>DE → EF</b>
+        </li>
+        <br>
+        <li>
+            If neither of the preceding two rules are true, form a rectangle with the two letters and take the letters on the horizontal opposite corner of the rectangle.
+            <br><br>
+            <table border="2px 1px" align="center" width="100" id="border-collapse">
+                <tr>
+                    <td>T</td>
+                    <td bgcolor="cyan">U</td>
+                    <td bgcolor="white">O</td>
+                    <td>R</td>
+                    <td>I</td>
+                </tr>
+                <tr>
+                    <td>A</td>
+                    <td>L</td>
+                    <td>S</td>
+                    <td>B</td>
+                    <td>C</td>
+                </tr>
+                <tr>
+                    <td>D</td>
+                    <td>E</td>
+                    <td>F</td>
+                    <td>G</td>
+                    <td>H</td>
+                </tr>
+                <tr>
+                    <td>K</td>
+                    <td bgcolor="white">M</td>
+                    <td bgcolor="cyan">N</td>
+                    <td>P</td>
+                    <td>Q</td>
+                </tr>
+                <tr>
+                    <td>V</td>
+                    <td>W</td>
+                    <td>X</td>
+                    <td>Y</td>
+                    <td>Z</td>
+                </tr>
+            </table>
+            <br>
+            ‘M’ and ‘O’ are neither in same row nor same column, hence take letters to the opposite cornerf of each letter on the same row to replace. Thus <b>MO → NU</b>
+        </li>
+    </ol>
+
+    <p>
+        Following the above rules, the result of the encryption of ‘<b>HIDE MONEY</b>’ with the key of ‘<b>TUTORIALS</b>’ would be: <b>QC EF NU MF ZV</b>
+    </p>
+    <p>
+        Steps to generate Cipher Text from Plain Text and vice-versa using <b>Playfair Cipher:</b> 
+        <br>
+        
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 1</b></i>: Choose a letter that you want to omit either Q/J.
+        <br>
+        
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 2</b></i>: Then, you get the set of 25 Alphabets other than the one which you selected to discard.
+        <br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 3</b></i>: Enter the Keyword and click on "Create Key Table" button to generate the Key Table based on the Keyword you entered.
+        <br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 4</b></i>: Enter the Plain Text you want to Encrypt and click on "Encrypt" button to generate the Cipher Text.
+        <br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 5</b></i>: Get the Cipher Text and click on "Decrypt" button to generate the Plain Text.
+        <br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <i><b>Step 6</b></i>: Click on "Reset" button to restart.
+        <br>
+    </p>
+
+    <form name="PlayfairForm">
+        <table bgcolor="lightpink" border="1" align="center" id="border-collapse">
+          <tr>
+            <td colspan="3">
+              <br>
+              Choose an Alphabet to be Omitted:
+              <input type="button" value="'Q'" onClick="ABC.value='ABCDEFGHIJKLMNOPRSTUVWXYZ';DupLet.value='Q'">
+              /
+              <input type="button" value="'J'" onClick="ABC.value='ABCDEFGHIKLMNOPQRSTUVWXYZ';DupLet.value='J'">
+              <br><br>
+              Set of Alphabets (by default): <input type="text" name="ABC" size="42" value="ABCDEFGHIJKLMNOPRSTUVWXYZ">
+              [Missing Letter: <input type="text" name="DupLet" size="2" value="Q"> Maps to &quot;I&quot;]
+              <br><br>
+              Enter the Key Word: <input type="text" name="Key1" size="33" placeholder="Ex: LIBRARY"> 
+              &nbsp;&nbsp;&nbsp;
+              <input type="button" value="Create Key Table" onClick="PFS.value=MakePlayfairSquare(ABC.value,Key1.value)">
+              <br><br>
+              <center>
+              <textarea name="PFS" rows="12" cols="12"></textarea>
+              </center>
+              <br>
+            </td>
+          </tr>
+          <tr>
+            <td align="center">
+                <br>Original Text<br><br>
+                <textarea rows="5" name="Original" cols="33" placeholder="Enter the Plain Text"></textarea>
+                <br><br>
+                <input type="button" value="Encrypt" onClick="Encrypted.value=DoPlayfair(Original.value,ABC.value,Key1.value,'E',DupLet.value)">
+                <br><p></p>
+            </td>
+            <td align="center">
+                <br>Encrypted Text<br><br>
+                <textarea rows="5" name="Encrypted" cols="33" placeholder="Get the Encrypted Text"></textarea>
+                <br><br>
+                <input type="button" value="Decrypt" onClick="Decrypted.value=DoPlayfair(Encrypted.value,ABC.value,Key1.value,'D',DupLet.value)">
+                <br>
+            </td>
+            <td align="center">
+                <br>Decrypted Text<br><br>
+                <textarea rows="5" name="Decrypted" cols="33" placeholder="Get the Decrypted Text"></textarea>
+                <br><br>
+                <input type="reset" value="Reset">
+                <br>
+            </td>
+          </tr>
+        </table>
+      </form>
+
+
+    <p align="right">
+        <button class="backbutton" onclick="goBack()">Back</button>
+    </p>
+
+  </body>
+</html>
